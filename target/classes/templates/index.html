@@ -5,25 +5,72 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th style="text-align: center"> Driver ID</th>
-        <th style="text-align: center"> Fuel Type</th>
-        <th style="text-align: center"> Price</th>
-        <th style="text-align: center"> Liters</th>
-        <th style="text-align: center"> Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="data : ${list}">
-        <td style="text-align: center" th:text="${data.getDriverID()}"></td>
-        <td style="text-align: center" th:text="${data.getFuelType()}"></td>
-        <td style="text-align: center" th:text="${data.getPrice()} + '€'"></td>
-        <td style="text-align: center" th:text="${data.getLiters()}"></td>
-        <td style="text-align: center" th:text="${data.getDate()}"></td>
-    </tr>
-    </tbody>
-</table>
+<h1 style="margin-bottom: auto">Fuel consumption records for specified month</h1>
+<div>
+    Choose Month: <input type="number" onkeypress="return false;" id="month" min="1" max="12" value="1"/><br>
+    <input type="radio" name="radio1" checked onclick="checkClick(0)"/>All Drivers<br>
+    <input type="radio" name="radio1" onclick="checkClick(1)"/><label id="radio1">Specific driver</label><br>
+    <input type="submit" value="Submit" onclick="submit(1)"/>
+</div>
+
+<h1 style="margin-bottom: auto">Total money spent</h1>
+<div>
+    <input type="radio" name="radio2" checked onclick="checkClick(0)"/>All Drivers<br>
+    <input type="radio" name="radio2" onclick="checkClick(2)"/><label id="radio2">Specific driver</label><br>
+    <input type="submit" value="Submit" onclick="submit(2)"/>
+</div>
+
+<h1 style="margin-bottom: auto">Statistics for each month</h1>
+<div>
+    <input type="radio" name="radio3" checked onclick="checkClick(0)"/>All Drivers<br>
+    <input type="radio" name="radio3" onclick="checkClick(3)"/><label id="radio3">Specific driver</label><br>
+    <input type="submit" value="Submit" onclick="submit(3)"/>
+</div>
+<script type="text/javascript">
+    var userSelectedRequestType = 0;
+
+    function checkClick(clickedBtn) {
+        if(clickedBtn == 0) {
+            userSelectedRequestType = 0;
+        }
+        else {
+            var insertedDriverID = parseInt(prompt("Please Enter driverID:"));
+            if(insertedDriverID.toString() == "NaN" || insertedDriverID.toString() == "")
+            {
+                alert("Please enter a valid Driver ID!");
+            }
+            else
+            {
+                document.getElementById("radio" + clickedBtn.toString()).innerHTML = "Specific driver (" + insertedDriverID.toString() + ")";
+                userSelectedRequestType = insertedDriverID;
+            }
+        }
+    }
+
+    function submit(request) {
+        var month = document.getElementById("month").value
+        if(month.toString().length == 1) {
+            month = "0" + month;
+        }
+        else if(month == "") {
+            month = "01";
+        }
+
+        window.location = "/result?driverID=" + userSelectedRequestType + "&month=" + month + "&submit=" + request;
+
+        /*if(request > 1 && userSelectedRequestType == 0) {
+            window.location = "/result?submit=" + request;
+        }
+        else if(request > 1 && userSelectedRequestType > 0) {
+            window.location = "/result?driverID=" + userSelectedRequestType + "&submit=" + request;
+        }
+        else if(userSelectedRequestType == 0) {
+            window.location = "/result?month=" + month + "&submit=" + request;
+        }
+        else {
+            window.location = "/result?driverID=" + userSelectedRequestType + "&month=" + month + "&submit=" + request;
+        }*/
+    }
+</script>
 </body>
 </html>
