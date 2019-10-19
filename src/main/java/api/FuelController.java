@@ -31,11 +31,12 @@ public class FuelController {
 
     @PostMapping("/api")
     public Data create(@RequestBody Data data){
+        int driverID = data.getDriverID();
         String fuelType = data.getFuelType();
         double price = data.getPrice();
         double liters = data.getLiters();
         String date = data.getDate();
-        return fuelRepository.save(new Data(fuelType, price, liters, date));
+        return fuelRepository.save(new Data(driverID, fuelType, price, liters, date));
     }
 
     @DeleteMapping("api/{id}")

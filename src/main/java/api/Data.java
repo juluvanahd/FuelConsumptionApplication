@@ -6,9 +6,8 @@ import javax.persistence.*;
 @Table(name="data")
 public class Data {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="driverID")
     private int driverID;
-
     @Column(name="fuelType")
     private String fuelType;
     @Column(name="price")
@@ -19,13 +18,6 @@ public class Data {
     private String date;
 
     public Data() {  }
-
-    public Data(String fuelType, double price, double liters, String date) {
-        this.setFuelType(fuelType);
-        this.setPrice(price);
-        this.setLiters(liters);
-        this.setDate(date);
-    }
 
     public Data(int id, String fuelType, double price, double liters, String date) {
         this.setDriverID(id);
