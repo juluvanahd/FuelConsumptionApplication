@@ -20,6 +20,8 @@ public class Data {
     @Column(name="date")
     private String date;
 
+    private double totalPrice;
+
     public Data() {  }
 
     public Data(int driverID, String fuelType, double price, double liters, String date) {
@@ -79,6 +81,12 @@ public class Data {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public double getTotalPrice() { return totalPrice; }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -53,11 +54,21 @@ public class FuelController {
             @RequestParam(value = "driverID", required = false) String driverID,
             @RequestParam(value = "month", required = false) String month,
             Model model) {
+
+        List<Data> data = fuelRepository.findByDriverID(Integer.parseInt(driverID));
+
+        for (int i = 0; i < data.size(); i++)
+        {
+            double price = data.get(i).getPrice();
+            double liters = data.get(i).getLiters();
+            double amount = liters * price;
+            data.get(i).setTotalPrice(amount);
+        }
+
         ModelAndView result = new ModelAndView("result");
-        model.addAttribute("list", fuelRepository.findByDriverID(Integer.parseInt(driverID)));
-        Data data = new Data();
-        List<Data> xd = fuelRepository.findByDriverID(1);
-        xd.get((int)data.getLiters());
+        model.addAttribute("list", data);
+
+
         return result;
     }
 }
