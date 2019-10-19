@@ -6,6 +6,9 @@ import javax.persistence.*;
 @Table(name="data")
 public class Data {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
     @Column(name="driverID")
     private int driverID;
     @Column(name="fuelType")
@@ -19,12 +22,29 @@ public class Data {
 
     public Data() {  }
 
-    public Data(int id, String fuelType, double price, double liters, String date) {
-        this.setDriverID(id);
+    public Data(int driverID, String fuelType, double price, double liters, String date) {
+        this.setDriverID(driverID);
         this.setFuelType(fuelType);
         this.setPrice(price);
         this.setLiters(liters);
         this.setDate(date);
+    }
+
+    public Data(int id,int driverID, String fuelType, double price, double liters, String date) {
+        this.setId(id);
+        this.setDriverID(driverID);
+        this.setFuelType(fuelType);
+        this.setPrice(price);
+        this.setLiters(liters);
+        this.setDate(date);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getDriverID() {
@@ -64,7 +84,8 @@ public class Data {
     @Override
     public String toString() {
         return "Data{" +
-                "driverID=" + driverID +
+                "id=" + id +
+                ", driverID='" + driverID + '\'' +
                 ", fuelType='" + fuelType + '\'' +
                 ", price='" + price + '\'' +
                 ", liters='" + liters + '\'' +

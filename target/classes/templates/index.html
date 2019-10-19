@@ -26,6 +26,11 @@
     <input type="radio" name="radio3" onclick="checkClick(3)"/><label id="radio3">Specific driver</label><br>
     <input type="submit" value="Submit" onclick="submit(3)"/>
 </div>
+
+<h1 style="margin-bottom: auto">Statistics for each month</h1>
+<div>
+    <input type="submit" value="Submit" onclick="sendJSON()"/>
+</div>
 <script type="text/javascript">
     var userSelectedRequestType = 0;
 
@@ -70,6 +75,22 @@
         else {
             window.location = "/result?driverID=" + userSelectedRequestType + "&month=" + month + "&submit=" + request;
         }*/
+    }
+    function sendJSON() {
+        var data = {
+            driverID: 3,
+            fuelType: "2",
+            price: 14.6,
+            liters: 5.4,
+            date: "MINE PERSEEEEE"
+        };
+
+        var json = JSON.stringify(data);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/add");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(json);
     }
 </script>
 </body>
