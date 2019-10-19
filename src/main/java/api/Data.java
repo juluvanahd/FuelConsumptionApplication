@@ -24,21 +24,23 @@ public class Data {
 
     public Data() {  }
 
-    public Data(int driverID, String fuelType, double price, double liters, String date) {
+    public Data(int driverID, String fuelType, double price, double liters, String date, double totalPrice) {
         this.setDriverID(driverID);
         this.setFuelType(fuelType);
         this.setPrice(price);
         this.setLiters(liters);
         this.setDate(date);
+        this.setTotalPrice(totalPrice);
     }
 
-    public Data(int id,int driverID, String fuelType, double price, double liters, String date) {
+    public Data(int id,int driverID, String fuelType, double price, double liters, String date, double totalPrice) {
         this.setId(id);
         this.setDriverID(driverID);
         this.setFuelType(fuelType);
         this.setPrice(price);
         this.setLiters(liters);
         this.setDate(date);
+        this.setTotalPrice(totalPrice);
     }
 
     public int getId() {
@@ -98,6 +100,7 @@ public class Data {
                 ", price='" + price + '\'' +
                 ", liters='" + liters + '\'' +
                 ", date='" + date + '\'' +
+                ", totalPrice='" + totalPrice + '\'' +
                 '}';
     }
 }

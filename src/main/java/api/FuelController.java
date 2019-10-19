@@ -33,7 +33,8 @@ public class FuelController {
         double price = data.getPrice();
         double liters = data.getLiters();
         String date = data.getDate();
-        return fuelRepository.save(new Data(driverID, fuelType, price, liters, date));
+        double totalPrice = price * liters;
+        return fuelRepository.save(new Data(driverID, fuelType, price, liters, date, totalPrice));
     }
 
     @DeleteMapping("api/{id}")
@@ -55,19 +56,30 @@ public class FuelController {
             @RequestParam(value = "month", required = false) String month,
             Model model) {
 
-        List<Data> data = fuelRepository.findByDriverID(Integer.parseInt(driverID));
+        List<Data> data = new ArrayList<>();
+        List<Data> endResult = new ArrayList<>();
+
+        if(Integer.parseInt(driverID) != -1)
+        {
+            data = fuelRepository.findByDriverID(Integer.parseInt(driverID));
+        }
+        else
+        {
+            data = fuelRepository.findAll();
+        }
 
         for (int i = 0; i < data.size(); i++)
         {
-            double price = data.get(i).getPrice();
-            double liters = data.get(i).getLiters();
-            double amount = liters * price;
-            data.get(i).setTotalPrice(amount);
+            String str[] = data.get(i).getDate().split("-");
+            int dateMonth = Integer.parseInt(str[1]);
+            if(dateMonth == Integer.parseInt(month))
+            {
+                endResult.add(data.get(i));
+            }
         }
 
         ModelAndView result = new ModelAndView("result");
-        model.addAttribute("list", data);
-
+        model.addAttribute("list", endResult);
 
         return result;
     }
