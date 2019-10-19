@@ -27,9 +27,14 @@
     <input type="submit" value="Submit" onclick="submit(3)"/>
 </div>
 
-<h1 style="margin-bottom: auto">Statistics for each month</h1>
+<h1 style="margin-bottom: auto">Add Driver</h1>
 <div>
-    <input type="submit" value="Submit" onclick="sendJSON()"/>
+    Enter Driver ID: <input type="number" id="driverID" min="1" value="1"/><br>
+    Enter Fuel Type: <input type="text" id="fuelType" placeholder="95"/><br>
+    Enter Price per Liter: <input type="number" step="0.01" id="price" min="0" placeholder="1.99"/><br>
+    Enter Liters Filled: <input type="number" step="0.01" id="liters" min="0" placeholder="10.00"/><br>
+    Enter Date: <input type="date" id="date" placeholder="01/01/2000"/><br>
+    <input type="submit" value="Submit" onclick="addDriver()"/>
 </div>
 <script type="text/javascript">
     var userSelectedRequestType = 0;
@@ -53,7 +58,7 @@
     }
 
     function submit(request) {
-        var month = document.getElementById("month").value
+        var month = document.getElementById("month").value;
         if(month.toString().length == 1) {
             month = "0" + month;
         }
@@ -61,7 +66,7 @@
             month = "01";
         }
 
-        window.location = "/result?driverID=" + userSelectedRequestType + "&month=" + month + "&submit=" + request;
+        window.location = "/resultFuel?driverID=" + userSelectedRequestType + "&month=" + month + "&submit=" + request;
 
         /*if(request > 1 && userSelectedRequestType == 0) {
             window.location = "/result?submit=" + request;
@@ -76,21 +81,29 @@
             window.location = "/result?driverID=" + userSelectedRequestType + "&month=" + month + "&submit=" + request;
         }*/
     }
-    function sendJSON() {
+    function addDriver() {
+
+        var driverID = document.getElementById("driverID").value;
+        var fuelType = document.getElementById("fuelType").value;
+        var price = document.getElementById("price").value;
+        var liters = document.getElementById("liters").value;
+        var date = document.getElementById("date").value;
+
         var data = {
-            driverID: 3,
-            fuelType: "2",
-            price: 14.6,
-            liters: 5.4,
-            date: "MINE PERSEEEEE"
+            driverID: driverID,
+            fuelType: fuelType,
+            price: price,
+            liters: liters,
+            date: date
         };
 
         var json = JSON.stringify(data);
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/add");
+        xhr.open("POST", "/api");
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(json);
+        alert("Driver: '" + driverID + "' added to database!");
     }
 </script>
 </body>

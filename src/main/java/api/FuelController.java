@@ -48,14 +48,16 @@ public class FuelController {
         return index;
     }
 
-    @RequestMapping("/result")
+    @RequestMapping("/resultFuel")
     public ModelAndView Result(
             @RequestParam(value = "driverID", required = false) String driverID,
             @RequestParam(value = "month", required = false) String month,
-            @RequestParam(value = "submit", required = false) String submit,
             Model model) {
         ModelAndView result = new ModelAndView("result");
-        model.addAttribute("list", fuelRepository.findAll());
+        model.addAttribute("list", fuelRepository.findByDriverID(Integer.parseInt(driverID)));
+        Data data = new Data();
+        List<Data> xd = fuelRepository.findByDriverID(1);
+        xd.get((int)data.getLiters());
         return result;
     }
 }

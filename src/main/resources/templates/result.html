@@ -10,18 +10,20 @@
     <tr>
         <th style="text-align: center"> Driver ID</th>
         <th style="text-align: center"> Fuel Type</th>
-        <th style="text-align: center"> Price</th>
         <th style="text-align: center"> Liters</th>
         <th style="text-align: center"> Date</th>
+        <th style="text-align: center"> Price</th>
+        <th style="text-align: center"> Total Price</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="data : ${list}">
         <td style="text-align: center" th:text="${data.getDriverID()}"></td>
         <td style="text-align: center" th:text="${data.getFuelType()}"></td>
-        <td style="text-align: center" th:text="${data.getPrice()} + '€'"></td>
         <td style="text-align: center" th:text="${data.getLiters()}"></td>
         <td style="text-align: center" th:text="${data.getDate()}"></td>
+        <td style="text-align: center" th:text="${data.getPrice()} + '€'"></td>
+        <td style="text-align: center" th:text="${#aggregates.sum()"></td>
     </tr>
     </tbody>
 </table>
