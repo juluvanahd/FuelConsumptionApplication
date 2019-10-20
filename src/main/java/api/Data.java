@@ -7,8 +7,10 @@ import javax.persistence.*;
 public class Data {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int driverID;
+    private int id;
 
+    @Column(name="driverID")
+    private int driverID;
     @Column(name="fuelType")
     private String fuelType;
     @Column(name="price")
@@ -18,21 +20,35 @@ public class Data {
     @Column(name="date")
     private String date;
 
+    private double totalPrice;
+
     public Data() {  }
 
-    public Data(String fuelType, double price, double liters, String date) {
+    public Data(int driverID, String fuelType, double price, double liters, String date, double totalPrice) {
+        this.setDriverID(driverID);
         this.setFuelType(fuelType);
         this.setPrice(price);
         this.setLiters(liters);
         this.setDate(date);
+        this.setTotalPrice(totalPrice);
     }
 
-    public Data(int id, String fuelType, double price, double liters, String date) {
-        this.setDriverID(id);
+    public Data(int id,int driverID, String fuelType, double price, double liters, String date, double totalPrice) {
+        this.setId(id);
+        this.setDriverID(driverID);
         this.setFuelType(fuelType);
         this.setPrice(price);
         this.setLiters(liters);
         this.setDate(date);
+        this.setTotalPrice(totalPrice);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getDriverID() {
@@ -69,14 +85,22 @@ public class Data {
         this.date = date;
     }
 
+    public double getTotalPrice() { return totalPrice; }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public String toString() {
         return "Data{" +
-                "driverID=" + driverID +
+                "id=" + id +
+                ", driverID='" + driverID + '\'' +
                 ", fuelType='" + fuelType + '\'' +
                 ", price='" + price + '\'' +
                 ", liters='" + liters + '\'' +
                 ", date='" + date + '\'' +
+                ", totalPrice='" + totalPrice + '\'' +
                 '}';
     }
 }
