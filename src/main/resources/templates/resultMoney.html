@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th> Month</th>
+        <th> Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="total: ${list}">
+        <td th:text="${total.getMonth()}"></td>
+        <td style="text-align: center" th:text="${total.getTotal()} + '€'"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
