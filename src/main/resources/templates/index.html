@@ -22,9 +22,10 @@
 
 <h1 style="margin-bottom: auto">Statistics for each month</h1>
 <div>
+    Enter Fuel Type: <input type="text" id="fuelTypeInput" placeholder="95"/><br>
     <input type="radio" name="radio3" checked onclick="checkClick(0)"/>All Drivers<br>
     <input type="radio" name="radio3" onclick="checkClick(3)"/><label id="radio3">Specific driver</label><br>
-    <input type="submit" value="Submit" onclick="submit(3)"/>
+    <input type="submit" value="Submit" onclick="getFuelType()"/>
 </div>
 
 <h1 style="margin-bottom: auto">Add Driver</h1>
@@ -68,11 +69,11 @@
 
         if(userSelectedRequestType !== -1)
         {
-            window.location = "/resultFuel?driverID=" + userSelectedRequestType + "&month=" + month;
+            window.location = "/resultSpecifiedMonth?driverID=" + userSelectedRequestType + "&month=" + month;
         }
         else
         {
-            window.location = "/resultFuel?month=" + month;
+            window.location = "/resultSpecifiedMonth?month=" + month;
         }
     }
     function addDriver() {
@@ -108,6 +109,19 @@
         else
         {
             window.location = "/resultMoney";
+        }
+    }
+    function getFuelType() {
+
+        var fuelType = document.getElementById("fuelTypeInput").value;
+
+        if(userSelectedRequestType !== -1)
+        {
+            window.location = "/resultFuel?driverID=" + userSelectedRequestType + "&fuelType=" + fuelType;
+        }
+        else
+        {
+            window.location = "/resultFuel?fuelType=" + fuelType;
         }
     }
 </script>

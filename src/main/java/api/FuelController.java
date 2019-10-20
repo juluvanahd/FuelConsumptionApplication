@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -57,8 +56,8 @@ public class FuelController {
         return index;
     }
 
-    @RequestMapping("/resultFuel")
-    public ModelAndView Result(
+    @RequestMapping("/resultSpecifiedMonth")
+    public ModelAndView ResultSpecifiedMonth(
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             @RequestParam(value = "month") String month,
             Model model) {
@@ -85,14 +84,14 @@ public class FuelController {
             }
         }
 
-        ModelAndView result = new ModelAndView("resultFuel");
+        ModelAndView result = new ModelAndView("resultSpecifiedMonth");
         model.addAttribute("list", endResult);
 
         return result;
     }
 
     @RequestMapping("/resultMoney")
-    public ModelAndView Result(
+    public ModelAndView ResultMoney(
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             Model model) {
 
@@ -134,6 +133,53 @@ public class FuelController {
 
         ModelAndView result = new ModelAndView("resultMoney");
         model.addAttribute("list", total);
+
+        return result;
+    }
+
+    @RequestMapping("/resultFuel")
+    public ModelAndView ResultFuel(
+            @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
+            @RequestParam(value = "fuelType") String fuelType,
+            Model model) {
+
+        List<Data> data = new ArrayList<>();
+        List<Fuel> fuel = new ArrayList<>();
+
+        if(Integer.parseInt(driverID) != -1)
+        {
+            data = fuelRepository.findByDriverIDAndFuelType(Integer.parseInt(driverID), fuelType);
+        }
+        else
+        {
+            data = fuelRepository.findByFuelType(fuelType);
+        }
+
+        double totalMoneySpent, averagePrice, liters;
+        for (int j = 1; j <= 12; j++)
+        {
+            totalMoneySpent = 0;
+            averagePrice = 0;
+            liters = 0;
+            for (int i = 0; i < data.size(); i++)
+            {
+                String str[] = data.get(i).getDate().split("-");
+                int dateMonth = Integer.parseInt(str[1]);
+                if(dateMonth == j)
+                {
+                    totalMoneySpent = totalMoneySpent + data.get(i).getTotalPrice();
+                    liters = liters + data.get(i).getLiters();
+                }
+            }
+            averagePrice = totalMoneySpent / data.size();
+            totalMoneySpent = Round(totalMoneySpent, 2);
+            averagePrice = Round(averagePrice, 2);
+            liters = Round(liters, 2);
+            fuel.add(new Fuel(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), fuelType, liters, averagePrice, totalMoneySpent));
+        }
+
+        ModelAndView result = new ModelAndView("resultFuel");
+        model.addAttribute("list", fuel);
 
         return result;
     }
