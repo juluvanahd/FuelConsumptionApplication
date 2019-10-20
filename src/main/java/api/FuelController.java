@@ -52,8 +52,8 @@ public class FuelController {
 
     @RequestMapping("/resultFuel")
     public ModelAndView Result(
-            @RequestParam(value = "driverID", required = false) String driverID,
-            @RequestParam(value = "month", required = false) String month,
+            @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
+            @RequestParam(value = "month") String month,
             Model model) {
 
         List<Data> data = new ArrayList<>();

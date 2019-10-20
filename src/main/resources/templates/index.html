@@ -10,7 +10,7 @@
     Choose Month: <input type="number" onkeypress="return false;" id="month" min="1" max="12" value="1"/><br>
     <input type="radio" name="radio1" checked onclick="checkClick(0)"/>All Drivers<br>
     <input type="radio" name="radio1" onclick="checkClick(1)"/><label id="radio1">Specific driver</label><br>
-    <input type="submit" value="Submit" onclick="submit(1)"/>
+    <input type="submit" value="Submit" onclick="getSpecifiedMonth()"/>
 </div>
 
 <h1 style="margin-bottom: auto">Total money spent</h1>
@@ -40,12 +40,12 @@
     var userSelectedRequestType = -1;
 
     function checkClick(clickedBtn) {
-        if(clickedBtn == 0) {
+        if(clickedBtn === 0) {
             userSelectedRequestType = -1;
         }
         else {
             var insertedDriverID = parseInt(prompt("Please Enter driverID:"));
-            if(insertedDriverID.toString() == "NaN" || insertedDriverID.toString() == "" ||insertedDriverID < 0)
+            if(insertedDriverID.toString() === "NaN" || insertedDriverID.toString() === "" ||insertedDriverID < 0)
             {
                 alert("Please enter a valid Driver ID!");
             }
@@ -57,29 +57,23 @@
         }
     }
 
-    function submit(request) {
+    function getSpecifiedMonth() {
         var month = document.getElementById("month").value;
-        if(month.toString().length == 1) {
+        if(month.toString().length === 1) {
             month = "0" + month;
         }
         else if(month == "") {
             month = "01";
         }
 
-        window.location = "/resultFuel?driverID=" + userSelectedRequestType + "&month=" + month + "&submit=" + request;
-
-        /*if(request > 1 && userSelectedRequestType == 0) {
-            window.location = "/result?submit=" + request;
+        if(userSelectedRequestType !== -1)
+        {
+            window.location = "/resultFuel?driverID=" + userSelectedRequestType + "&month=" + month;
         }
-        else if(request > 1 && userSelectedRequestType > 0) {
-            window.location = "/result?driverID=" + userSelectedRequestType + "&submit=" + request;
+        else
+        {
+            window.location = "/resultFuel?month=" + month;
         }
-        else if(userSelectedRequestType == 0) {
-            window.location = "/result?month=" + month + "&submit=" + request;
-        }
-        else {
-            window.location = "/result?driverID=" + userSelectedRequestType + "&month=" + month + "&submit=" + request;
-        }*/
     }
     function addDriver() {
 
