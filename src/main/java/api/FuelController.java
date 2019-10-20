@@ -96,10 +96,8 @@ public class FuelController {
         }
 
         double totalMoneySpent;
-        int usedMonth;
         for (int j = 1; j <= 12; j++)
         {
-            usedMonth = 0;
             totalMoneySpent = 0;
             for (int i = 0; i < data.size(); i++)
             {
@@ -108,14 +106,10 @@ public class FuelController {
                 if(dateMonth == j)
                 {
                     totalMoneySpent = totalMoneySpent + data.get(i).getTotalPrice();
-                    usedMonth = j;
                 }
             }
-            if(usedMonth != 0)
-            {
-                totalMoneySpent = Round(totalMoneySpent, 2);
-                total.add(new Total(Month.of(usedMonth).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), totalMoneySpent));
-            }
+            totalMoneySpent = Round(totalMoneySpent, 2);
+            total.add(new Total(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), totalMoneySpent));
         }
 
         ModelAndView result = new ModelAndView("resultMoney");
