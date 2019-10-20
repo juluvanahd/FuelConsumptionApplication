@@ -171,9 +171,15 @@ public class FuelController {
                     liters = liters + data.get(i).getLiters();
                 }
             }
-            averagePrice = totalMoneySpent / data.size();
+            if(data.size() > 0) {
+                averagePrice = totalMoneySpent / data.size();
+                averagePrice = Round(averagePrice, 2);
+            }
+            else
+            {
+                averagePrice = 0.0;
+            }
             totalMoneySpent = Round(totalMoneySpent, 2);
-            averagePrice = Round(averagePrice, 2);
             liters = Round(liters, 2);
             fuel.add(new Fuel(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), fuelType, liters, averagePrice, totalMoneySpent));
         }

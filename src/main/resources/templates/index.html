@@ -115,13 +115,20 @@
 
         var fuelType = document.getElementById("fuelTypeInput").value;
 
-        if(userSelectedRequestType !== -1)
+        if(fuelType == "95" || fuelType == "98" || fuelType == "D")
         {
-            window.location = "/resultFuel?driverID=" + userSelectedRequestType + "&fuelType=" + fuelType;
+            if(userSelectedRequestType !== -1)
+            {
+                window.location = "/resultFuel?driverID=" + userSelectedRequestType + "&fuelType=" + fuelType;
+            }
+            else
+            {
+                window.location = "/resultFuel?fuelType=" + fuelType;
+            }
         }
         else
         {
-            window.location = "/resultFuel?fuelType=" + fuelType;
+            alert("Please enter a valid fuel type!");
         }
     }
 </script>
