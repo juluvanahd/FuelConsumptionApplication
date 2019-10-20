@@ -137,7 +137,7 @@ public class FuelController {
 
         return result;
     }
-    
+
     public static double Round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
