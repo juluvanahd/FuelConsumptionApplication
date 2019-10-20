@@ -25,12 +25,6 @@ public class FuelController {
         return fuelRepository.findAll();
     }
 
-    @GetMapping("/api/{id}")
-    public Data show(@PathVariable String id){
-        int driverID = Integer.parseInt(id);
-        return fuelRepository.findOne(driverID);
-    }
-
     @PostMapping("/api")
     public Data create(@RequestBody Data data){
         int driverID = data.getDriverID();
@@ -41,13 +35,6 @@ public class FuelController {
         double totalPrice = price * liters;
         totalPrice = Round(totalPrice, 2);
         return fuelRepository.save(new Data(driverID, fuelType, price, liters, date, totalPrice));
-    }
-
-    @DeleteMapping("api/{id}")
-    public boolean delete(@PathVariable String id){
-        int driverID = Integer.parseInt(id);
-        fuelRepository.delete(driverID);
-        return true;
     }
 
     @RequestMapping("/")
