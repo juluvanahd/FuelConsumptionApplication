@@ -3,25 +3,26 @@
 <head>
     <title>Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
 <table>
     <thead>
-    <tr>
-        <th> Month</th>
-        <th> Fuel Type</th>
-        <th> Liters</th>
-        <th> Average Price</th>
-        <th> Total Price</th>
+    <tr class="row header blue">
+        <th class="cell"> Month</th>
+        <th class="cell"> Fuel Type</th>
+        <th class="cell"> Liters</th>
+        <th class="cell"> Average Price</th>
+        <th class="cell"> Total Price</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="fuel: ${list}">
-        <td style="text-align: center" th:text="${fuel.getMonth()}"></td>
-        <td style="text-align: center" th:text="${fuel.getFuelType()}"></td>
-        <td style="text-align: center" th:text="${fuel.getLiters()}"></td>
-        <td style="text-align: center" th:text="${fuel.getAveragePrice()} + '€'"></td>
-        <td style="text-align: center" th:text="${fuel.getTotalPrice()} + '€'"></td>
+    <tr class="row" th:each="fuel: ${list}">
+        <td class="cell" th:text="${fuel.getMonth()}"></td>
+        <td class="cell" th:text="${fuel.getFuelType()}"></td>
+        <td class="cell" th:text="${fuel.getLiters()}"></td>
+        <td class="cell" th:text="${fuel.getAveragePrice()} + '€'"></td>
+        <td class="cell" th:text="${fuel.getTotalPrice()} + '€'"></td>
     </tr>
     </tbody>
 </table>
