@@ -20,11 +20,6 @@ public class FuelController {
     @Autowired
     FuelRepository fuelRepository;
 
-    @GetMapping("/api")
-    public List<Data> index(){
-        return fuelRepository.findAll();
-    }
-
     @PostMapping("/api")
     public Data create(@RequestBody Data data){
         int driverID = data.getDriverID();
@@ -49,7 +44,7 @@ public class FuelController {
             @RequestParam(value = "month") String month,
             Model model) {
 
-        List<Data> data = new ArrayList<>();
+        List<Data> data;
         List<Data> endResult = new ArrayList<>();
 
         if(Integer.parseInt(driverID) != -1)
@@ -83,7 +78,7 @@ public class FuelController {
             Model model) {
 
 
-        List<Data> data = new ArrayList<>();
+        List<Data> data;
         List<Total> total = new ArrayList<>();
 
         if(Integer.parseInt(driverID) != -1)
@@ -124,7 +119,7 @@ public class FuelController {
             @RequestParam(value = "fuelType") String fuelType,
             Model model) {
 
-        List<Data> data = new ArrayList<>();
+        List<Data> data;
         List<Fuel> fuel = new ArrayList<>();
 
         if(Integer.parseInt(driverID) != -1)
@@ -140,7 +135,6 @@ public class FuelController {
         for (int j = 1; j <= 12; j++)
         {
             totalMoneySpent = 0;
-            averagePrice = 0;
             liters = 0;
             for (int i = 0; i < data.size(); i++)
             {
