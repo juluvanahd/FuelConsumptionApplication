@@ -1,10 +1,8 @@
 package api;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,8 +15,12 @@ import java.util.Locale;
 @RestController
 public class FuelController {
 
-    @Autowired
+    private final
     FuelRepository fuelRepository;
+
+    public FuelController(FuelRepository fuelRepository) {
+        this.fuelRepository = fuelRepository;
+    }
 
     @PostMapping("/api")
     public Data create(@RequestBody Data data){
@@ -28,18 +30,17 @@ public class FuelController {
         double liters = data.getLiters();
         String date = data.getDate();
         double totalPrice = price * liters;
-        totalPrice = Round(totalPrice, 2);
+        totalPrice = round(totalPrice, 2);
         return fuelRepository.save(new Data(driverID, fuelType, price, liters, date, totalPrice));
     }
 
     @RequestMapping("/")
-    public ModelAndView Index() {
-        ModelAndView index = new ModelAndView("index");
-        return index;
+    public ModelAndView home() {
+        return new ModelAndView("index");
     }
 
     @RequestMapping("/resultSpecifiedMonth")
-    public ModelAndView ResultSpecifiedMonth(
+    public ModelAndView resultSpecifiedMonth(
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             @RequestParam(value = "month") String month,
             Model model) {
@@ -73,7 +74,7 @@ public class FuelController {
     }
 
     @RequestMapping("/resultMoney")
-    public ModelAndView ResultMoney(
+    public ModelAndView resultMoney(
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             Model model) {
 
@@ -96,14 +97,14 @@ public class FuelController {
             totalMoneySpent = 0;
             for (int i = 0; i < data.size(); i++)
             {
-                String str[] = data.get(i).getDate().split("-");
+                String[] str = data.get(i).getDate().split("-");
                 int dateMonth = Integer.parseInt(str[1]);
                 if(dateMonth == j)
                 {
                     totalMoneySpent = totalMoneySpent + data.get(i).getTotalPrice();
                 }
             }
-            totalMoneySpent = Round(totalMoneySpent, 2);
+            totalMoneySpent = round(totalMoneySpent, 2);
             total.add(new Total(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), totalMoneySpent));
         }
 
@@ -114,7 +115,7 @@ public class FuelController {
     }
 
     @RequestMapping("/resultFuel")
-    public ModelAndView ResultFuel(
+    public ModelAndView resultFuel(
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             @RequestParam(value = "fuelType") String fuelType,
             Model model) {
@@ -138,7 +139,7 @@ public class FuelController {
             liters = 0;
             for (int i = 0; i < data.size(); i++)
             {
-                String str[] = data.get(i).getDate().split("-");
+                String[] str = data.get(i).getDate().split("-");
                 int dateMonth = Integer.parseInt(str[1]);
                 if(dateMonth == j)
                 {
@@ -148,14 +149,14 @@ public class FuelController {
             }
             if(data.size() > 0) {
                 averagePrice = totalMoneySpent / data.size();
-                averagePrice = Round(averagePrice, 2);
+                averagePrice = round(averagePrice, 2);
             }
             else
             {
                 averagePrice = 0.0;
             }
-            totalMoneySpent = Round(totalMoneySpent, 2);
-            liters = Round(liters, 2);
+            totalMoneySpent = round(totalMoneySpent, 2);
+            liters = round(liters, 2);
             fuel.add(new Fuel(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), fuelType, liters, averagePrice, totalMoneySpent));
         }
 
@@ -165,7 +166,7 @@ public class FuelController {
         return result;
     }
 
-    public static double Round(double value, int places) {
+    private static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         BigDecimal bd = BigDecimal.valueOf(value);
