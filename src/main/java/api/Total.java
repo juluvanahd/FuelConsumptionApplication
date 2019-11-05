@@ -1,11 +1,13 @@
 package api;
 
+import java.math.BigDecimal;
+
 public class Total {
 
     private String month;
-    private double total;
+    private BigDecimal total;
 
-    public Total(String month, double total)
+    public Total(String month, BigDecimal total)
     {
         this.setMonth(month);
         this.setTotal(total);
@@ -17,9 +19,9 @@ public class Total {
         return month;
     }
 
-    public void setTotal(double total) { this.total = total; }
+    public void setTotal(BigDecimal total) { this.total = total; }
 
-    public double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 }

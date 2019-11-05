@@ -1,6 +1,7 @@
 package api;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name="data")
@@ -14,17 +15,17 @@ public class Data {
     @Column(name="fuelType")
     private String fuelType;
     @Column(name="price")
-    private double price;
+    private BigDecimal price;
     @Column(name="liters")
-    private double liters;
+    private BigDecimal liters;
     @Column(name="date")
     private String date;
 
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     public Data() {  }
 
-    public Data(int driverID, String fuelType, double price, double liters, String date, double totalPrice) {
+    public Data(int driverID, String fuelType, BigDecimal price, BigDecimal liters, String date, BigDecimal totalPrice) {
         this.setDriverID(driverID);
         this.setFuelType(fuelType);
         this.setPrice(price);
@@ -41,19 +42,19 @@ public class Data {
 
     public void setFuelType(String fuelType) { this.fuelType = fuelType; }
 
-    public double getPrice() { return price; }
+    public BigDecimal getPrice() { return price; }
 
-    public void setPrice(double price) { this.price = price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
 
-    public double getLiters() { return liters; }
+    public BigDecimal getLiters() { return liters; }
 
-    public void setLiters(double liters) { this.liters = liters; }
+    public void setLiters(BigDecimal liters) { this.liters = liters; }
 
     public String getDate() { return date; }
 
     public void setDate(String date) { this.date = date; }
 
-    public double getTotalPrice() { return totalPrice; }
+    public BigDecimal getTotalPrice() { return totalPrice; }
 
-    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
+    public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }
 }
