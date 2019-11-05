@@ -9,11 +9,8 @@ import java.util.List;
 @Controller
 public class FuelController {
 
-    private final
-    FuelRepository fuelRepository;
-
-    private final
-    FuelService fuelService;
+    private FuelRepository fuelRepository;
+    private FuelService fuelService;
 
     public FuelController(FuelRepository fuelRepository, FuelService fuelService) {
         this.fuelRepository = fuelRepository;
