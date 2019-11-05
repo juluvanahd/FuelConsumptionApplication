@@ -1,8 +1,8 @@
 package api;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-@RestController
+@Controller
 public class FuelController {
 
     private List<Data> data = new ArrayList<>();
@@ -37,12 +37,12 @@ public class FuelController {
     }
 
     @RequestMapping("/")
-    public ModelAndView home() {
-        return new ModelAndView("index");
+    public String home() {
+        return "index";
     }
 
     @RequestMapping("/resultSpecifiedMonth")
-    public ModelAndView resultSpecifiedMonth(
+    public String resultSpecifiedMonth(
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             @RequestParam(value = "month") String month,
             Model model) {
@@ -63,14 +63,13 @@ public class FuelController {
             }
         }
 
-        ModelAndView result = new ModelAndView("resultSpecifiedMonth");
         model.addAttribute("list", endResult);
 
-        return result;
+        return "resultSpecifiedMonth";
     }
 
     @RequestMapping("/resultMoney")
-    public ModelAndView resultMoney(
+    public String resultMoney(
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             Model model) {
 
@@ -97,14 +96,13 @@ public class FuelController {
             total.add(new Total(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), totalMoneySpent));
         }
 
-        ModelAndView result = new ModelAndView("resultMoney");
         model.addAttribute("list", total);
 
-        return result;
+        return "resultMoney";
     }
 
     @RequestMapping("/resultFuel")
-    public ModelAndView resultFuel(
+    public String resultFuel(
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             @RequestParam(value = "fuelType") String fuelType,
             Model model) {
@@ -140,10 +138,9 @@ public class FuelController {
             fuel.add(new Fuel(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), fuelType, liters, averagePrice, totalMoneySpent));
         }
 
-        ModelAndView result = new ModelAndView("resultFuel");
         model.addAttribute("list", fuel);
 
-        return result;
+        return "resultFuel";
     }
 
     private static double round(double value, int places) {
