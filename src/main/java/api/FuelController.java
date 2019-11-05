@@ -4,36 +4,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.Month;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class FuelController {
 
-    private List<Data> data = new ArrayList<>();
-
     private final
     FuelRepository fuelRepository;
 
-    public FuelController(FuelRepository fuelRepository) {
+    private final
+    FuelService fuelService;
+
+    public FuelController(FuelRepository fuelRepository, FuelService fuelService) {
         this.fuelRepository = fuelRepository;
+        this.fuelService = fuelService;
     }
 
     @PostMapping("/api")
-    public Data create(@RequestBody Data data){
-        int driverID = data.getDriverID();
-        String fuelType = data.getFuelType();
-        double price = data.getPrice();
-        double liters = data.getLiters();
-        String date = data.getDate();
-        double totalPrice = price * liters;
-        totalPrice = round(totalPrice, 2);
-        return fuelRepository.save(new Data(driverID, fuelType, price, liters, date, totalPrice));
+    public @ResponseBody String create(@RequestBody Data data) {
+
+        List<String> list = fuelService.addDriver(data);
+        fuelRepository.save(new Data(Integer.parseInt(list.get(0)), list.get(1), Double.parseDouble(list.get(2)), Double.parseDouble(list.get(3)), list.get(4), Double.parseDouble(list.get(5))));
+
+        return "Driver: " + "'" + list.get(0) + "' added successfully!";
     }
 
     @RequestMapping("/")
@@ -47,24 +41,8 @@ public class FuelController {
             @RequestParam(value = "month") String month,
             Model model) {
 
-        List<Data> endResult = new ArrayList<>();
-
-        request(driverID,
-                fuelRepository.findByDriverID(Integer.parseInt(driverID)),
-                fuelRepository.findAll());
-
-        for (int i = 0; i < data.size(); i++)
-        {
-            String[] str = data.get(i).getDate().split("-");
-            int dateMonth = Integer.parseInt(str[1]);
-            if(dateMonth == Integer.parseInt(month))
-            {
-                endResult.add(data.get(i));
-            }
-        }
-
+        List<Data> endResult = fuelService.specifiedMonth(driverID, month, fuelRepository);
         model.addAttribute("list", endResult);
-
         return "resultSpecifiedMonth";
     }
 
@@ -73,31 +51,8 @@ public class FuelController {
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             Model model) {
 
-        List<Total> total = new ArrayList<>();
-
-        request(driverID,
-                fuelRepository.findByDriverID(Integer.parseInt(driverID)),
-                fuelRepository.findAll());
-
-        double totalMoneySpent;
-        for (int j = 1; j <= 12; j++)
-        {
-            totalMoneySpent = 0;
-            for (int i = 0; i < data.size(); i++)
-            {
-                String[] str = data.get(i).getDate().split("-");
-                int dateMonth = Integer.parseInt(str[1]);
-                if(dateMonth == j)
-                {
-                    totalMoneySpent = totalMoneySpent + data.get(i).getTotalPrice();
-                }
-            }
-            totalMoneySpent = round(totalMoneySpent, 2);
-            total.add(new Total(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), totalMoneySpent));
-        }
-
+        List<Total> total = fuelService.money(driverID, fuelRepository);
         model.addAttribute("list", total);
-
         return "resultMoney";
     }
 
@@ -107,59 +62,8 @@ public class FuelController {
             @RequestParam(value = "fuelType") String fuelType,
             Model model) {
 
-        List<Fuel> fuel = new ArrayList<>();
-
-        request(driverID,
-                fuelRepository.findByDriverIDAndFuelType(Integer.parseInt(driverID), fuelType),
-                fuelRepository.findByFuelType(fuelType));
-
-        double totalMoneySpent, averagePrice, liters;
-        for (int j = 1; j <= 12; j++)
-        {
-            totalMoneySpent = 0;
-            averagePrice = 0.0;
-            liters = 0;
-            for (int i = 0; i < data.size(); i++)
-            {
-                String[] str = data.get(i).getDate().split("-");
-                int dateMonth = Integer.parseInt(str[1]);
-                if(dateMonth == j)
-                {
-                    totalMoneySpent = totalMoneySpent + data.get(i).getTotalPrice();
-                    liters = liters + data.get(i).getLiters();
-                }
-            }
-            if(data.size() > 0) {
-                averagePrice = totalMoneySpent / data.size();
-                averagePrice = round(averagePrice, 2);
-            }
-            totalMoneySpent = round(totalMoneySpent, 2);
-            liters = round(liters, 2);
-            fuel.add(new Fuel(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), fuelType, liters, averagePrice, totalMoneySpent));
-        }
-
+        List<Fuel> fuel = fuelService.fuel(driverID, fuelType, fuelRepository);
         model.addAttribute("list", fuel);
-
         return "resultFuel";
-    }
-
-    private static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
-
-    private void request(String driverID, List<Data> fuelRepositoryTrue, List<Data> fuelRepositoryFalse)
-    {
-        if(Integer.parseInt(driverID) != -1)
-        {
-            data = fuelRepositoryTrue;
-        }
-        else
-        {
-            data = fuelRepositoryFalse;
-        }
     }
 }

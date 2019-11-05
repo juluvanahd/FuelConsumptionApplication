@@ -58,16 +58,31 @@ function addDriver() {
         var json = JSON.stringify(data);
 
         var xhr = new XMLHttpRequest();
+        xhr.timeout = 5000;
+
+        xhr.onreadystatechange = function(e) {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert(xhr.responseText);
+                } else {
+                    alert("Something went wrong :(");
+                }
+            }
+        };
+        xhr.ontimeout = function () {
+            alert("Request timed out");
+        };
+
         xhr.open("POST", "/api");
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(json);
-        alert("Driver: '" + driverID + "' added to database!");
     }
     else
     {
         alert("Please enter a valid data!");
     }
 }
+
 function getRequest(url, parameter, value) {
 
     if(parameter === null && userSelectedRequestType !== -1)
