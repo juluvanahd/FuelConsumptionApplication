@@ -1,4 +1,4 @@
-# FuelConsumptionApplication
+# Fuel Consumption Application
 
 ## MySQL
 

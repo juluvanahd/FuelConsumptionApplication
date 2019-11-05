@@ -1,6 +1,8 @@
 package api;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Date;
 
 @Entity
 @Table(name="data")
@@ -14,17 +16,17 @@ public class Data {
     @Column(name="fuelType")
     private String fuelType;
     @Column(name="price")
-    private double price;
+    private BigDecimal price;
     @Column(name="liters")
-    private double liters;
+    private BigDecimal liters;
     @Column(name="date")
-    private String date;
+    private Date date;
 
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     public Data() {  }
 
-    public Data(int driverID, String fuelType, double price, double liters, String date, double totalPrice) {
+    public Data(int driverID, String fuelType, BigDecimal price, BigDecimal liters, Date date, BigDecimal totalPrice) {
         this.setDriverID(driverID);
         this.setFuelType(fuelType);
         this.setPrice(price);
@@ -33,74 +35,27 @@ public class Data {
         this.setTotalPrice(totalPrice);
     }
 
-    public Data(int id,int driverID, String fuelType, double price, double liters, String date, double totalPrice) {
-        this.setId(id);
-        this.setDriverID(driverID);
-        this.setFuelType(fuelType);
-        this.setPrice(price);
-        this.setLiters(liters);
-        this.setDate(date);
-        this.setTotalPrice(totalPrice);
-    }
+    public int getDriverID() { return driverID; }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getDriverID() {
-        return driverID;
-    }
-
-    public void setDriverID(int driverID) {
-        this.driverID = driverID;
-    }
+    public void setDriverID(int driverID) { this.driverID = driverID; }
 
     public String getFuelType() { return fuelType; }
 
     public void setFuelType(String fuelType) { this.fuelType = fuelType; }
 
-    public double getPrice() { return price; }
+    public BigDecimal getPrice() { return price; }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public void setPrice(BigDecimal price) { this.price = price; }
 
-    public double getLiters() {
-        return liters;
-    }
+    public BigDecimal getLiters() { return liters; }
 
-    public void setLiters(double liters) {
-        this.liters = liters;
-    }
+    public void setLiters(BigDecimal liters) { this.liters = liters; }
 
-    public String getDate() {
-        return date;
-    }
+    public Date getDate() { return date; }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+    public void setDate(Date date) { this.date = date; }
 
-    public double getTotalPrice() { return totalPrice; }
+    public BigDecimal getTotalPrice() { return totalPrice; }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    @Override
-    public String toString() {
-        return "Data{" +
-                "id=" + id +
-                ", driverID='" + driverID + '\'' +
-                ", fuelType='" + fuelType + '\'' +
-                ", price='" + price + '\'' +
-                ", liters='" + liters + '\'' +
-                ", date='" + date + '\'' +
-                ", totalPrice='" + totalPrice + '\'' +
-                '}';
-    }
+    public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }
 }

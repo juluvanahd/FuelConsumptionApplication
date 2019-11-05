@@ -1,14 +1,17 @@
 package api;
 
+import java.math.BigDecimal;
+import java.util.BitSet;
+
 public class Fuel {
 
     private String month;
     private String fuelType;
-    private double liters;
-    private double totalPrice;
-    private double averagePrice;
+    private BigDecimal liters;
+    private BigDecimal totalPrice;
+    private BigDecimal averagePrice;
 
-    public Fuel(String month, String fuelType, double liters, double averagePrice, double totalPrice)
+    public Fuel(String month, String fuelType, BigDecimal liters, BigDecimal averagePrice, BigDecimal totalPrice)
     {
         this.setMonth(month);
         this.setFuelType(fuelType);
@@ -29,21 +32,21 @@ public class Fuel {
         return fuelType;
     }
 
-    public void setLiters(double liters) { this.liters = liters; }
+    public void setLiters(BigDecimal liters) { this.liters = liters; }
 
-    public double getLiters() {
+    public BigDecimal getLiters() {
         return liters;
     }
 
-    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
+    public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }
 
-    public double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setAveragePrice(double averagePrice) { this.averagePrice = averagePrice; }
+    public void setAveragePrice(BigDecimal averagePrice) { this.averagePrice = averagePrice; }
 
-    public double getAveragePrice() {
+    public BigDecimal getAveragePrice() {
         return averagePrice;
     }
 }
