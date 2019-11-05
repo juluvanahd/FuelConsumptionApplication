@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 @Controller
@@ -22,7 +23,7 @@ public class FuelController {
     public @ResponseBody String create(@RequestBody Data data) {
 
         List<String> list = fuelService.addDriver(data);
-        fuelRepository.save(new Data(Integer.parseInt(list.get(0)), list.get(1), new BigDecimal(list.get(2)), new BigDecimal(list.get(3)), list.get(4), new BigDecimal(list.get(5))));
+        fuelRepository.save(new Data(Integer.parseInt(list.get(0)), list.get(1), new BigDecimal(list.get(2)), new BigDecimal(list.get(3)), Date.valueOf(list.get(4)), new BigDecimal(list.get(5))));
 
         return "Driver: " + "'" + list.get(0) + "' added successfully!";
     }

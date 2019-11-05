@@ -2,6 +2,7 @@ package api;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 @Entity
 @Table(name="data")
@@ -19,13 +20,13 @@ public class Data {
     @Column(name="liters")
     private BigDecimal liters;
     @Column(name="date")
-    private String date;
+    private Date date;
 
     private BigDecimal totalPrice;
 
     public Data() {  }
 
-    public Data(int driverID, String fuelType, BigDecimal price, BigDecimal liters, String date, BigDecimal totalPrice) {
+    public Data(int driverID, String fuelType, BigDecimal price, BigDecimal liters, Date date, BigDecimal totalPrice) {
         this.setDriverID(driverID);
         this.setFuelType(fuelType);
         this.setPrice(price);
@@ -50,9 +51,9 @@ public class Data {
 
     public void setLiters(BigDecimal liters) { this.liters = liters; }
 
-    public String getDate() { return date; }
+    public Date getDate() { return date; }
 
-    public void setDate(String date) { this.date = date; }
+    public void setDate(Date date) { this.date = date; }
 
     public BigDecimal getTotalPrice() { return totalPrice; }
 

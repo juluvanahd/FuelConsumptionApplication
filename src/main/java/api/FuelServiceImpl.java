@@ -3,7 +3,6 @@ package api;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class FuelServiceImpl implements FuelService {
         list.add(data.getFuelType());
         list.add(data.getPrice().toString());
         list.add(data.getLiters().toString());
-        list.add(data.getDate());
+        list.add(data.getDate().toString());
         list.add(totalPrice.toString());
 
         return list;
@@ -43,7 +42,7 @@ public class FuelServiceImpl implements FuelService {
 
         for (int i = 0; i < data.size(); i++)
         {
-            String[] str = data.get(i).getDate().split("-");
+            String[] str = data.get(i).getDate().toString().split("-");
             int dateMonth = Integer.parseInt(str[1]);
             if(dateMonth == Integer.parseInt(month))
             {
@@ -69,7 +68,7 @@ public class FuelServiceImpl implements FuelService {
             totalMoneySpent = BigDecimal.valueOf(0.0);
             for (int i = 0; i < data.size(); i++)
             {
-                String[] str = data.get(i).getDate().split("-");
+                String[] str = data.get(i).getDate().toString().split("-");
                 int dateMonth = Integer.parseInt(str[1]);
                 if(dateMonth == j)
                 {
@@ -103,7 +102,7 @@ public class FuelServiceImpl implements FuelService {
 
             for (int i = 0; i < data.size(); i++)
             {
-                String[] str = data.get(i).getDate().split("-");
+                String[] str = data.get(i).getDate().toString().split("-");
                 int dateMonth = Integer.parseInt(str[1]);
                 if(dateMonth == j)
                 {
