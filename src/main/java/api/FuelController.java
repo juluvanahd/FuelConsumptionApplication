@@ -15,6 +15,8 @@ import java.util.Locale;
 @RestController
 public class FuelController {
 
+    private List<Data> data = new ArrayList<>();
+
     private final
     FuelRepository fuelRepository;
 
@@ -45,21 +47,15 @@ public class FuelController {
             @RequestParam(value = "month") String month,
             Model model) {
 
-        List<Data> data;
         List<Data> endResult = new ArrayList<>();
 
-        if(Integer.parseInt(driverID) != -1)
-        {
-            data = fuelRepository.findByDriverID(Integer.parseInt(driverID));
-        }
-        else
-        {
-            data = fuelRepository.findAll();
-        }
+        request(driverID,
+                fuelRepository.findByDriverID(Integer.parseInt(driverID)),
+                fuelRepository.findAll());
 
         for (int i = 0; i < data.size(); i++)
         {
-            String str[] = data.get(i).getDate().split("-");
+            String[] str = data.get(i).getDate().split("-");
             int dateMonth = Integer.parseInt(str[1]);
             if(dateMonth == Integer.parseInt(month))
             {
@@ -78,18 +74,11 @@ public class FuelController {
             @RequestParam(value = "driverID", required = false, defaultValue = "-1") String driverID,
             Model model) {
 
-
-        List<Data> data;
         List<Total> total = new ArrayList<>();
 
-        if(Integer.parseInt(driverID) != -1)
-        {
-            data = fuelRepository.findByDriverID(Integer.parseInt(driverID));
-        }
-        else
-        {
-            data = fuelRepository.findAll();
-        }
+        request(driverID,
+                fuelRepository.findByDriverID(Integer.parseInt(driverID)),
+                fuelRepository.findAll());
 
         double totalMoneySpent;
         for (int j = 1; j <= 12; j++)
@@ -120,22 +109,17 @@ public class FuelController {
             @RequestParam(value = "fuelType") String fuelType,
             Model model) {
 
-        List<Data> data;
         List<Fuel> fuel = new ArrayList<>();
 
-        if(Integer.parseInt(driverID) != -1)
-        {
-            data = fuelRepository.findByDriverIDAndFuelType(Integer.parseInt(driverID), fuelType);
-        }
-        else
-        {
-            data = fuelRepository.findByFuelType(fuelType);
-        }
+        request(driverID,
+                fuelRepository.findByDriverIDAndFuelType(Integer.parseInt(driverID), fuelType),
+                fuelRepository.findByFuelType(fuelType));
 
         double totalMoneySpent, averagePrice, liters;
         for (int j = 1; j <= 12; j++)
         {
             totalMoneySpent = 0;
+            averagePrice = 0.0;
             liters = 0;
             for (int i = 0; i < data.size(); i++)
             {
@@ -150,10 +134,6 @@ public class FuelController {
             if(data.size() > 0) {
                 averagePrice = totalMoneySpent / data.size();
                 averagePrice = round(averagePrice, 2);
-            }
-            else
-            {
-                averagePrice = 0.0;
             }
             totalMoneySpent = round(totalMoneySpent, 2);
             liters = round(liters, 2);
@@ -172,5 +152,17 @@ public class FuelController {
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    private void request(String driverID, List<Data> fuelRepositoryTrue, List<Data> fuelRepositoryFalse)
+    {
+        if(Integer.parseInt(driverID) != -1)
+        {
+            data = fuelRepositoryTrue;
+        }
+        else
+        {
+            data = fuelRepositoryFalse;
+        }
     }
 }
