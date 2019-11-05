@@ -3,6 +3,7 @@ package api;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class FuelServiceImpl implements FuelService {
                 }
             }
             if(counter > 0) {
-                averagePrice = totalMoneySpent.divide(BigDecimal.valueOf(counter));
+                averagePrice = totalMoneySpent.divide(BigDecimal.valueOf(counter), RoundingMode.HALF_UP);
             }
 
             fuel.add(new Fuel(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), fuelType, liters, averagePrice, totalMoneySpent));
