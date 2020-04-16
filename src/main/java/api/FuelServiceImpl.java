@@ -14,6 +14,10 @@ import java.util.Locale;
 public class FuelServiceImpl implements FuelService {
 
     private List<Data> data = new ArrayList<>();
+    public static final String[] MONTHS = new String[]{"January", "February", "March",
+            "April", "May", "June",
+            "July,", "August", "September",
+            "October", "November", "December"};
 
     @Override
     public List<String> addDriver(Data data) {
@@ -77,7 +81,7 @@ public class FuelServiceImpl implements FuelService {
                 }
             }
 
-            total.add(new Total(Month.of(j).getDisplayName(TextStyle.FULL_STANDALONE, Locale.US), totalMoneySpent));
+            total.add(new Total(MONTHS[j-1], totalMoneySpent));
         }
 
         return total;
